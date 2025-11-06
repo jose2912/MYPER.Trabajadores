@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MYPER.Trabajadores.Business\MYPER.Trabajadores.Business.csproj" />
+    <ProjectReference Include="..\MYPER.Trabajadores.Data\MYPER.Trabajadores.Data.csproj" />
+    <ProjectReference Include="..\MYPER.Trabajadores.Entity\MYPER.Trabajadores.Entity.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+</Project>

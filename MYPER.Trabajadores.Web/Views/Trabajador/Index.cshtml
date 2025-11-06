@@ -1,0 +1,167 @@
+﻿@model List<MYPER.Trabajadores.Entity.Trabajador>
+
+@{
+    ViewData["Title"] = "Lista de Trabajadores";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">@TempData["Mensaje"]</div>
+}
+
+<!-- Filtro por nombre, documento y sexo -->
+<form method="get" asp-action="Index" class="form-inline mb-3">
+    <input type="text" name="filtro" class="form-control mr-2" placeholder="Buscar por nombre o documento..." />
+
+    <select name="sexo" class="form-control mr-2">
+        <option value="">-- Sexo --</option>
+        <option value="Masculino">Masculino</option>
+        <option value="Femenino">Femenino</option>
+    </select>
+
+    <button type="submit" class="btn btn-outline-primary">Buscar</button>
+    <a asp-action="Index" class="btn btn-outline-secondary ml-2">Limpiar</a>
+</form>
+
+<!-- Botón para abrir modal de registro -->
+<button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalCrear">
+    Nuevo Trabajador
+</button>
+
+
+
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Documento</th>
+            <th>Sexo</th>
+            <th>Fecha Nacimiento</th>
+            <th>Dirección</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @{
+            if (Model != null)
+            {
+                foreach (var t in Model)
+                {
+                    var color = t.Sexo == "Masculino" ? "table-primary" : "table-warning";
+                    <tr class="@color">
+                        <td>@t.Nombres</td>
+                        <td>@t.Apellidos</td>
+                        <td>@t.TipoDocumento - @t.NumeroDocumento</td>
+                        <td>@t.Sexo</td>
+                        <td>@(t.FechaNacimiento.HasValue ? t.FechaNacimiento.Value.ToShortDateString() : "Sin fecha")</td>
+                        <td>@t.Direccion</td>
+                        <td>
+                             <!-- <a asp-action="Edit" asp-route-id="@t.Id" class="btn btn-sm btn-warning">Editar</a>
+                         -->
+                            <!-- <button type="button" class="btn btn-sm btn-warning btn-editar" data-id="@t.Id">Editar</button>-->
+                            <a asp-action="Edit" asp-route-id="@t.Id" class="btn btn-sm btn-warning">Editar</a>
+                            <a asp-action="Delete" asp-route-id="@t.Id" class="btn btn-sm btn-danger">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>
+
+<!-- Modal de registro -->
+@* <div class="modal fade" id="modalCrear" tabindex="-1" role="dialog" aria-labelledby="modalCrearLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form asp-action="Create" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCrearLabel">Nuevo Trabajador</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @Html.Partial("CreatePartial", new MYPER.Trabajadores.Entity.Trabajador())
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+ *@
+<div class="modal fade" id="modalCrear" tabindex="-1" aria-labelledby="modalCrearLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCrearLabel">Nuevo Trabajador</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body" id="modalCrearContenido">
+                <!-- Aquí se carga la vista parcial -->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Cargar el formulario en el modal
+        $('#modalCrear').on('show.bs.modal', function () {
+            $('#modalCrearContenido').load('/Trabajador/CreatePartial', function () {
+                // Activar preview de imagen después de cargar el formulario
+                const inputFoto = document.getElementById("Foto");
+                const preview = document.getElementById("previewFoto");
+
+                if (inputFoto && preview) {
+                    inputFoto.addEventListener("change", function () {
+                        const archivo = this.files[0];
+                        if (archivo && archivo.type.startsWith("image/")) {
+                            const reader = new FileReader();
+                            reader.onload = function (e) {
+                                preview.src = e.target.result;
+                                preview.style.display = "block";
+                            };
+                            reader.readAsDataURL(archivo);
+                        } else {
+                            preview.src = "#";
+                            preview.style.display = "none";
+                        }
+                    });
+                }
+            });
+        });
+
+        // Enviar el formulario por AJAX
+        $(document).on('submit', '#formCrearTrabajador', function (e) {
+            e.preventDefault(); // Evita el submit tradicional
+
+            const formData = new FormData(this); // Para enviar archivos
+
+            $.ajax({
+                url: $(this).attr('action'),
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function () {
+                    $('#modalCrear').modal('hide');
+                    location.reload(); // Recarga la lista
+                },
+                error: function () {
+                    alert('Error al guardar el trabajador.');
+                }
+            });
+        });
+    </script>
+}

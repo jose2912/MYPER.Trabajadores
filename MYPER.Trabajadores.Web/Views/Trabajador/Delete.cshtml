@@ -1,0 +1,33 @@
+﻿@model MYPER.Trabajadores.Entity.Trabajador
+
+<h2>Eliminar Trabajador</h2>
+
+<h4>¿Estás seguro que deseas eliminar este registro?</h4>
+
+<div class="border p-3 mb-3">
+    <dl class="row">
+        <dt class="col-sm-3">Nombre</dt>
+        <dd class="col-sm-9">@Model.Nombres</dd>
+
+        <dt class="col-sm-3">Apellido</dt>
+        <dd class="col-sm-9">@Model.Apellidos</dd>
+
+        <dt class="col-sm-3">Documento</dt>
+        <dd class="col-sm-9">@Model.TipoDocumento - @Model.NumeroDocumento</dd>
+
+        <dt class="col-sm-3">Sexo</dt>
+        <dd class="col-sm-9">@Model.Sexo</dd>
+
+        <dt class="col-sm-3">Fecha Nacimiento</dt>
+        <dd class="col-sm-9">@Model.FechaNacimiento?.ToString("dd/MM/yyyy") ?? "No registrada"</dd>
+
+        <dt class="col-sm-3">Dirección</dt>
+        <dd class="col-sm-9">@Model.Direccion</dd>
+    </dl>
+</div>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

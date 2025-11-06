@@ -1,0 +1,86 @@
+﻿@model MYPER.Trabajadores.Entity.Trabajador
+
+<form asp-action="Create" method="post" enctype="multipart/form-data" id="formCrearTrabajador">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Nombres"></label>
+        <input asp-for="Nombres" class="form-control" />
+        <span asp-validation-for="Nombres" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Apellidos"></label>
+        <input asp-for="Apellidos" class="form-control" />
+        <span asp-validation-for="Apellidos" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TipoDocumento"></label>
+        <select asp-for="TipoDocumento" class="form-control" asp-items="ViewBag.TiposDocumento"></select>
+        <span asp-validation-for="TipoDocumento" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NumeroDocumento"></label>
+        <input asp-for="NumeroDocumento" class="form-control" />
+        <span asp-validation-for="NumeroDocumento" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Sexo"></label>
+        <select asp-for="Sexo" class="form-control" asp-items="ViewBag.Sexos"></select>
+        <span asp-validation-for="Sexo" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="FechaNacimiento"></label>
+        <input asp-for="FechaNacimiento" class="form-control" type="date" />
+        <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Direccion"></label>
+        <input asp-for="Direccion" class="form-control" />
+        <span asp-validation-for="Direccion" class="text-danger"></span>
+    </div>
+
+    <!-- Campo para subir foto -->
+    <div class="form-group">
+        <label for="Foto">Foto</label>
+        <input type="file" name="Foto" id="Foto" class="form-control" accept=".jpg,.jpeg,.png,.gif" />
+        <div class="mt-2">
+            <img id="previewFoto" src="#" alt="Vista previa" style="display:none;" width="120" class="img-thumbnail" />
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button id="btnGuardar" type="submit" class="btn btn-success">Guardar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        const inputFoto = document.getElementById("Foto");
+        const preview = document.getElementById("previewFoto");
+
+        if (inputFoto) {
+            inputFoto.addEventListener("change", function () {
+                const archivo = this.files[0];
+                if (archivo && archivo.type.startsWith("image/")) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        preview.src = e.target.result;
+                        preview.style.display = "block";
+                    };
+                    reader.readAsDataURL(archivo);
+                } else {
+                    preview.src = "#";
+                    preview.style.display = "none";
+                }
+            });
+        }
+    </script>
+}
+

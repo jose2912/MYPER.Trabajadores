@@ -1,0 +1,54 @@
+﻿@model MYPER.Trabajadores.Entity.Trabajador
+
+<form asp-action="Edit" method="post" id="formEditarTrabajador">
+    <input type="hidden" asp-for="Id" />
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Nombres"></label>
+        <input asp-for="Nombres" class="form-control" />
+        <span asp-validation-for="Nombres" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Apellidos"></label>
+        <input asp-for="Apellidos" class="form-control" />
+        <span asp-validation-for="Apellidos" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TipoDocumento"></label>
+        <select asp-for="TipoDocumento" class="form-control" asp-items="ViewBag.TiposDocumento"></select>
+        <span asp-validation-for="TipoDocumento" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="NumeroDocumento"></label>
+        <input asp-for="NumeroDocumento" class="form-control" />
+        <span asp-validation-for="NumeroDocumento" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Sexo"></label>
+        <select asp-for="Sexo" class="form-control" asp-items="ViewBag.Sexos"></select>
+        <span asp-validation-for="Sexo" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="FechaNacimiento"></label>
+        <input asp-for="FechaNacimiento" class="form-control" type="date" />
+        <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Direccion"></label>
+        <input asp-for="Direccion" class="form-control" />
+        <span asp-validation-for="Direccion" class="text-danger"></span>
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+    </div>
+</form>
