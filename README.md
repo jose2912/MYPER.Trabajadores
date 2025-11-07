@@ -79,7 +79,7 @@ Se documentaron los resultados en el archivo `QA_Validacion_MYPER.pdf` con captu
 
 ## 📬 Autor
 
-Desarrollado por **José Luis Guzmán Arias**  
+Desarrollado por **Jose Luis Guzman Arias**  
 [LinkedIn](https://www.linkedin.com/in/joseluisguzmanarias/) | [Correo](mailto:jl_guzman_arias@hotmail.com)
 
 ---
